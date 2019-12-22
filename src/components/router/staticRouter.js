@@ -1,13 +1,21 @@
 import index from '../page/index'
+import subjectList from "../page/subject/subjectList";
 const staticRouter =[
     {
         path: '*',
-        redirect:'/index'
+        redirect:'/home'
     },
     {
-        path: '/index',
+        path: '/home',
         name: '',
-        component: index
+        component: index,
+        children:[
+            {
+                path: 'test',
+                name: 'test',
+                component: subjectList
+            }
+        ]
     },
 ];
 

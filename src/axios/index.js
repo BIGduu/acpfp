@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+axios.defaults.baseURL = 'http://localhost:8080'
 if (process.env.NODE_ENV === 'dev'){
     axios.defaults.baseURL = 'http://localhost:8080';
 } else if (process.env.NODE_ENV === 'prod'){
@@ -23,11 +24,8 @@ export default function request(url='',data={},method='get',) {
             } else if (method.toLocaleLowerCase('delete')){
                 promise = axios({method: method, url: url, data: data})
             }
-
             promise.then(function (response) {
-                if (response.config.data.hasOwnProperty('code') && response.data.code === 1){
                     return resolve(response.data);
-                }
             }).catch(function (error) {
                 reject(error);
             })
