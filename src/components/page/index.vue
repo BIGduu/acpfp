@@ -16,8 +16,14 @@
         name: "index",
         data(){
             return{
-
+                user:{}
             }
+        },
+        methods:{
+
+        },
+        created() {
+            getUser()
         }
     }
 </script>

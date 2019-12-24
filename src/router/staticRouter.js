@@ -1,5 +1,5 @@
-import index from '../page/index'
-import subjectList from "../page/subject/subjectList";
+import index from '../components/page/index'
+import subjectList from "../components/page/subject/subjectList";
 const staticRouter =[
     {
         path: '*',
@@ -7,7 +7,7 @@ const staticRouter =[
     },
     {
         path: '/home',
-        name: '',
+        name: 'home',
         component: index,
         children:[
             {
