@@ -1,5 +1,14 @@
 import request from './index'
 
-export const getDefaultTest = (data) =>{
-  return request('/test/subject/default',data,"get");
+export const requestDefaultTest = (data) => {
+    return request('/test/default', data, "get");
 };
+
+export const requestAllTest = (data) => {
+    return request('/test/allSubject', data, "get");
+};
+
+export const requestSingleTest = (data) => {
+    return request('/test/single', data, "get");
+};
+

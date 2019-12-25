@@ -1,14 +1,14 @@
 <template>
     <el-form :model="form" ref="form" :rules="rules">
-         <el-form-item label="用户名">
-             <el-input v-model="form.username"/>
-         </el-form-item>
-         <el-form-item label="密  码">
+        <el-form-item label="用户名">
+            <el-input v-model="form.username"/>
+        </el-form-item>
+        <el-form-item label="密  码">
             <el-input type="password" v-model="form.password"/>
-         </el-form-item>
-         <el-form-item label="密  码">
+        </el-form-item>
+        <el-form-item label="密  码">
             <el-input v-model="form.password"/>
-         </el-form-item>
+        </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit('form')">登录</el-button>
             <el-button>注册</el-button>
@@ -17,34 +17,34 @@
 </template>
 
 <script>
-    import {loginRequest} from "../../../axios/login";
+    import {requestLogin} from "../../../axios/login";
 
     export default {
         name: "login",
-        data(){
-            let validatePassword = (rule,value,callback) => {
-              if (value === ''){
-                  callback(new Error('请输入密码'));
-              } else {
-                  callback();
-              }
+        data() {
+            let validatePassword = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    callback();
+                }
             };
-           return{
-               form:{
-                   username:'',
-                   password:'',
-                   rememberMe:false
-               },
-               rules:{
-                   password:[{validator:validatePassword,trigger:'blur'}]
-               }
-           }
+            return {
+                form: {
+                    username: '',
+                    password: '',
+                    rememberMe: false
+                },
+                rules: {
+                    password: [{validator: validatePassword, trigger: 'blur'}]
+                }
+            }
         },
-        methods:{
-            onSubmit(formName){
+        methods: {
+            onSubmit(formName) {
                 this.$refs[formName].validate(
-                    (valid) =>{
-                        if (valid){
+                    (valid) => {
+                        if (valid) {
                             this.doLogin();
                         } else {
                             return false;
@@ -52,9 +52,9 @@
                     }
                 );
             },
-            doLogin(){
-                loginRequest(this.form).then((response)=>{
-                    this.$router.push({name:'home'})
+            doLogin() {
+                requestLogin(this.form).then((response) => {
+                    this.$router.push({name: 'home'})
                 })
             }
         }
