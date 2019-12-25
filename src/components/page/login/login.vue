@@ -1,19 +1,18 @@
 <template>
-    <el-form :model="form" ref="form" :rules="rules">
-        <el-form-item label="用户名">
-            <el-input v-model="form.username"/>
-        </el-form-item>
-        <el-form-item label="密  码">
-            <el-input type="password" v-model="form.password"/>
-        </el-form-item>
-        <el-form-item label="密  码">
-            <el-input v-model="form.password"/>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="onSubmit('form')">登录</el-button>
-            <el-button>注册</el-button>
-        </el-form-item>
-    </el-form>
+    <el-card>
+        <el-form :model="form" ref="form" :rules="rules">
+            <el-form-item label="用户名">
+                <el-input v-model="form.username"/>
+            </el-form-item>
+            <el-form-item label="密  码">
+                <el-input type="password" v-model="form.password"/>
+            </el-form-item>
+            <el-form-item>
+                <el-button>注册</el-button>
+                <el-button type="primary" @click="onSubmit('form')">登录</el-button>
+            </el-form-item>
+        </el-form>
+    </el-card>
 </template>
 
 <script>

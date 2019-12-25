@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import {requestLogin} from "@/axios/login";
+    import {requestLogin} from "../../axios/login";
 
     export default {
         name: "index",
@@ -40,7 +40,6 @@
                         this.user.name = result;
                     })
                     .catch(error => {
-
                         console.log(error);
                     });
             }
