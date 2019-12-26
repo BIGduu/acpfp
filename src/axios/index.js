@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-import da from "element-ui/src/locale/lang/da";
+import router from "@/router";
 
 axios.defaults.baseURL = 'http://localhost:8888';
 if (process.env.NODE_ENV === 'dev') {
@@ -17,16 +17,16 @@ axios.defaults.withCredentials = true;
 export default function request(url = '', data = {}, method = 'get',) {
     return new Promise(function (resolve, reject) {
         let promise;
-        if (method.toLocaleLowerCase('get')) {
+        if (method.toLowerCase() === 'get') {
             promise = axios({method: method, url: url, params: data})
-        } else if (method.toLocaleLowerCase('post')) {
+        } else if (method.toLowerCase() === 'post') {
             promise = axios({method: method, url: url, data: data})
-        } else if (method.toLocaleLowerCase('patch')) {
+        } else if (method.toLowerCase() === 'patch') {
             promise = axios({method: method, url: url, data: data})
-        } else if (method.toLocaleLowerCase('delete')) {
+        } else if (method.toLowerCase() === 'delete') {
             promise = axios({method: method, url: url, data: data})
-        } else if (method.toLocaleLowerCase('login')) {
-            axios(
+        } else if (method.toLowerCase() === 'login') {
+            promise = axios(
                 {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -40,9 +40,10 @@ export default function request(url = '', data = {}, method = 'get',) {
         promise
             .then(function (response) {
                 if (response.status === 401) {
-                    this.$router.push({name: 'home'})
+                    router.push({name:'login'})
+                } else if (response.status === 200) {
+                    return resolve(response.data);
                 }
-                return resolve(response.data);
             })
             .catch(function (error) {
                 reject(error);

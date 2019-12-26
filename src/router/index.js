@@ -4,11 +4,9 @@ import staticRouter from "./staticRouter";
 
 Vue.use(VueRouter);
 
-const router = new VueRouter(
-    {
-        base: "/",
-        routes: staticRouter
-    }
-);
+const router = new VueRouter({
+    base: "/",
+    routes: staticRouter
+});
 
 export default router;
