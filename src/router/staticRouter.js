@@ -1,7 +1,8 @@
 import index from "../components/page/index";
 import login from "../components/page/login/login";
 import logon from "../components/page/logon/logon";
-import subjectList from "../components/page/subject/subjectList";
+import defaultSubjectList from "../components/page/subject/defaultSubjectList";
+import allSubjectList from "@/components/page/subject/allSubjectList";
 const staticRouter =[
     {
         path: '*',
@@ -13,10 +14,16 @@ const staticRouter =[
         component: index,
         children:[
             {
-                path: 'test',
-                name: 'test',
-                component: subjectList
-            }
+                path: 'defaultTest',
+                name: 'defaultTest',
+                component: defaultSubjectList
+            },
+            {
+                path: 'allTest',
+                name: 'allTest',
+                component: allSubjectList
+            },
+
         ]
     },
     {

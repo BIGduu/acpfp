@@ -6,7 +6,10 @@
                     <el-col :span="2">
                         <el-button type="primary" @click="gotoDefaultTest">生成试卷</el-button>
                     </el-col>
-                    <el-col :span="4" :offset="18">
+                    <el-col :span="2">
+                        <el-button type="primary" @click="gotAllTest">所有试题</el-button>
+                    </el-col>
+                    <el-col :span="4" :offset="13">
                         <span>欢迎 , {{user.name}}</span>
                     </el-col>
                 </el-row>
@@ -32,7 +35,10 @@
         },
         methods: {
             gotoDefaultTest() {
-                this.$router.push({name: 'test'})
+                this.$router.push({name: 'defaultTest'})
+            },
+            gotAllTest(){
+              this.$router.push({name:'allTest'})
             },
             getOnlineUser() {
                 requestOnlineUser({})

@@ -1,9 +1,8 @@
 <template>
     <div v-loading.fullscreen.lock="loading">
         <!--        单选题-->
-        <el-divider>单选题</el-divider>
-        <el-card
-                v-if="testList.singleChoiceSubjects != null && testList.singleChoiceSubjects.length !== 0">
+        <el-card v-if="testList.singleChoiceSubjects != null && testList.singleChoiceSubjects.length !== 0">
+            <el-divider>单选题</el-divider>
             <el-card :key="index" v-for="(item,index) in testList.singleChoiceSubjects">
                 <el-divider>第{{index}}题</el-divider>
                 <el-row :gutter="20">
@@ -30,13 +29,13 @@
                 >
                     {{option.description}}
                 </el-radio>
+                <el-divider/>
             </el-card>
         </el-card>
 
         <!--        多选题-->
-        <el-divider>多选题</el-divider>
-        <el-card
-                v-if="testList.multipleChoiceSubjects != null && testList.multipleChoiceSubjects.length !== 0">
+        <el-card v-if="testList.multipleChoiceSubjects != null && testList.multipleChoiceSubjects.length !== 0">
+            <el-divider>多选题</el-divider>
             <el-card :key="index" v-for="(item,index) in testList.multipleChoiceSubjects">
                 <el-divider>第{{index}}题</el-divider>
                 <el-row :gutter="20">
@@ -63,13 +62,13 @@
                 >
                     {{option.description}}
                 </el-checkbox>
+                <el-divider/>
             </el-card>
         </el-card>
 
         <!--        判断题-->
-        <el-divider>判断题</el-divider>
-        <el-card
-                v-if="testList.judgeSubjects != null && testList.judgeSubjects.length !== 0">
+        <el-card v-if="testList.judgeSubjects != null && testList.judgeSubjects.length !== 0">
+            <el-divider>判断题</el-divider>
             <el-card :key="index" v-for="(item,index) in testList.judgeSubjects">
                 <el-divider>第{{index}}题</el-divider>
                 <el-row :gutter="20">
@@ -96,6 +95,7 @@
                 >
                     {{option.description}}
                 </el-radio>
+                <el-divider/>
             </el-card>
         </el-card>
     </div>
@@ -105,7 +105,7 @@
     import {requestDefaultTest} from "../../../axios/test";
 
     export default {
-        name: "subjectList",
+        name: "defaultSubject",
         data() {
             return {
                 loading:true,

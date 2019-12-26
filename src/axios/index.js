@@ -2,7 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import router from "@/router";
 
-let baseURL = 'http://localhost:8888';
+let baseURL = 'http://10.202.164.142:8888';
 let timeout = 100000;
 
 
