@@ -1,11 +1,14 @@
 <template>
-    <div>
+    <div v-loading.fullscreen.lock="loading">
         <!--        单选题-->
-        <el-card v-if="testList.singleChoiceSubjects.length !== 0">
+        <el-divider>单选题</el-divider>
+        <el-card
+                v-if="testList.singleChoiceSubjects != null && testList.singleChoiceSubjects.length !== 0">
             <el-card :key="index" v-for="(item,index) in testList.singleChoiceSubjects">
+                <el-divider>第{{index}}题</el-divider>
                 <el-row :gutter="20">
                     <el-col :span="19">
-                        <p>{{index}},{{item.question}}</p>
+                        <p>{{item.question}}</p>
                     </el-col>
                     <el-col :span="1">
                         <div>
@@ -31,9 +34,24 @@
         </el-card>
 
         <!--        多选题-->
-        <el-card v-if="testList.multipleChoiceSubjects.length !== 0">
+        <el-divider>多选题</el-divider>
+        <el-card
+                v-if="testList.multipleChoiceSubjects != null && testList.multipleChoiceSubjects.length !== 0">
             <el-card :key="index" v-for="(item,index) in testList.multipleChoiceSubjects">
-                <p>{{index}},{{item.question}}</p>
+                <el-divider>第{{index}}题</el-divider>
+                <el-row :gutter="20">
+                    <el-col :span="19">
+                        <p>{{item.question}}</p>
+                    </el-col>
+                    <el-col :span="1">
+                        <div>
+                            <el-button v-if="item.did === true && item.right === true" size="mini" icon="el-icon-check"
+                                       type="success" circle/>
+                            <el-button v-if="item.did === true && item.right === false" size="mini" icon="el-icon-close"
+                                       type="danger" circle/>
+                        </div>
+                    </el-col>
+                </el-row>
                 <el-checkbox
                         border
                         size="small"
@@ -49,9 +67,24 @@
         </el-card>
 
         <!--        判断题-->
-        <el-card v-if="testList.judgeSubjects.length !== 0">
+        <el-divider>判断题</el-divider>
+        <el-card
+                v-if="testList.judgeSubjects != null && testList.judgeSubjects.length !== 0">
             <el-card :key="index" v-for="(item,index) in testList.judgeSubjects">
-                <p>{{index}},{{item.question}}</p>
+                <el-divider>第{{index}}题</el-divider>
+                <el-row :gutter="20">
+                    <el-col :span="19">
+                        <p>{{item.question}}</p>
+                    </el-col>
+                    <el-col :span="1">
+                        <div>
+                            <el-button v-if="item.did === true && item.right === true" size="mini" icon="el-icon-check"
+                                       type="success" circle/>
+                            <el-button v-if="item.did === true && item.right === false" size="mini" icon="el-icon-close"
+                                       type="danger" circle/>
+                        </div>
+                    </el-col>
+                </el-row>
                 <el-radio
                         border
                         size="small"
@@ -75,6 +108,7 @@
         name: "subjectList",
         data() {
             return {
+                loading:true,
                 testList: {
                     singleChoiceSubjects: [],
                     multipleChoiceSubjects: [],
@@ -85,6 +119,7 @@
         methods: {
             init() {
                 requestDefaultTest().then(result => {
+                    this.loading = false;
                     this.testList = result;
                 })
 
@@ -135,7 +170,6 @@
                 }
             },
             putSolution(index, item) {
-                debugger
                 item.did = true;
                 this.updateSubject(index, item);
                 item.right = this.isRight(item);

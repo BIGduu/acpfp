@@ -2,31 +2,44 @@ import axios from 'axios'
 import qs from 'qs'
 import router from "@/router";
 
-axios.defaults.baseURL = 'http://localhost:8888';
-if (process.env.NODE_ENV === 'dev') {
-    axios.defaults.baseURL = 'http://localhost:8888';
-} else if (process.env.NODE_ENV === 'prod') {
-    axios.defaults.baseURL = 'http://36.42.73.246:9999';
-}
+let baseURL = 'http://localhost:8888';
+let timeout = 100000;
 
-//请求超时，单位ms
-axios.defaults.timeout = 10000;
-//设置默认请求地址和是否保持session
-axios.defaults.withCredentials = true;
+
+const instance = axios.create({
+    baseURL: baseURL,
+    timeout: timeout,
+    withCredentials: true
+});
+
+instance.interceptors.response.use(response => {
+        return response;
+    },
+    error => {
+        if (error.response) {
+            if (error.response.status === 401) {
+                router.replace({name: 'login'});
+                location.reload();
+            }
+            return Promise.reject(error.response.data);
+
+        }
+    }
+);
 
 export default function request(url = '', data = {}, method = 'get',) {
     return new Promise(function (resolve, reject) {
         let promise;
         if (method.toLowerCase() === 'get') {
-            promise = axios({method: method, url: url, params: data})
+            promise = instance({method: method, url: url, params: data})
         } else if (method.toLowerCase() === 'post') {
-            promise = axios({method: method, url: url, data: data})
+            promise = instance({method: method, url: url, data: data})
         } else if (method.toLowerCase() === 'patch') {
-            promise = axios({method: method, url: url, data: data})
+            promise = instance({method: method, url: url, data: data})
         } else if (method.toLowerCase() === 'delete') {
-            promise = axios({method: method, url: url, data: data})
+            promise = instance({method: method, url: url, data: data})
         } else if (method.toLowerCase() === 'login') {
-            promise = axios(
+            promise = instance(
                 {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -39,11 +52,10 @@ export default function request(url = '', data = {}, method = 'get',) {
         }
         promise
             .then(function (response) {
-                if (response.status === 401) {
-                    router.push({name:'login'})
-                } else if (response.status === 200) {
-                    return resolve(response.data);
+                if (!response) {
+                    return resolve(null);
                 }
+                return resolve(response.data);
             })
             .catch(function (error) {
                 reject(error);
