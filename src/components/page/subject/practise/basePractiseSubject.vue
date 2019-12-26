@@ -1,19 +1,18 @@
 <template>
-    <div v-loading.fullscreen.lock="loading">
+    <div>
         <!--        单选题-->
-        <el-card v-if="testList.singleChoiceSubjects != null && testList.singleChoiceSubjects.length !== 0">
+        <el-card v-if="oneSubject != null && oneSubject.type === 'single'">
             <el-divider>单选题</el-divider>
-            <el-card :key="index" v-for="(item,index) in testList.singleChoiceSubjects">
-                <el-divider>第{{index}}题</el-divider>
+            <el-card>
                 <el-row :gutter="20">
                     <el-col :span="19">
-                        <p>{{item.question}}</p>
+                        <p>{{oneSubject.question}}</p>
                     </el-col>
                     <el-col :span="1">
                         <div>
-                            <el-button v-if="item.did === true && item.right === true" size="mini" icon="el-icon-check"
+                            <el-button v-if="oneSubject.did === true && oneSubject.right === true" size="mini" icon="el-icon-check"
                                        type="success" circle/>
-                            <el-button v-if="item.did === true && item.right === false" size="mini" icon="el-icon-close"
+                            <el-button v-if="oneSubject.did === true && oneSubject.right === false" size="mini" icon="el-icon-close"
                                        type="danger" circle/>
                         </div>
                     </el-col>
@@ -21,11 +20,11 @@
                 <el-radio
                         border
                         size="small"
-                        v-model="item.tmp"
+                        v-model="oneSubject.tmp"
                         :key="option_index"
-                        v-for="(option,option_index) in item.options"
+                        v-for="(option,option_index) in oneSubject.options"
                         :label="option.index"
-                        @change="((label)=>{putSolution(option.index, item)})"
+                        @change="((label)=>{putSolution(option.index, oneSubject)})"
                 >
                     {{option.description}}
                 </el-radio>
@@ -34,19 +33,18 @@
         </el-card>
 
         <!--        多选题-->
-        <el-card v-if="testList.multipleChoiceSubjects != null && testList.multipleChoiceSubjects.length !== 0">
+        <el-card v-if="oneSubject != null && oneSubject === 'multiple'">
             <el-divider>多选题</el-divider>
-            <el-card :key="index" v-for="(item,index) in testList.multipleChoiceSubjects">
-                <el-divider>第{{index}}题</el-divider>
+            <el-card>
                 <el-row :gutter="20">
                     <el-col :span="19">
-                        <p>{{item.question}}</p>
+                        <p>{{oneSubject.question}}</p>
                     </el-col>
                     <el-col :span="1">
                         <div>
-                            <el-button v-if="item.did === true && item.right === true" size="mini" icon="el-icon-check"
+                            <el-button v-if="oneSubject.did === true && oneSubject.right === true" size="mini" icon="el-icon-check"
                                        type="success" circle/>
-                            <el-button v-if="item.did === true && item.right === false" size="mini" icon="el-icon-close"
+                            <el-button v-if="oneSubject.did === true && oneSubject.right === false" size="mini" icon="el-icon-close"
                                        type="danger" circle/>
                         </div>
                     </el-col>
@@ -55,10 +53,10 @@
                         border
                         size="small"
                         :key="option_index"
-                        v-model="item[option_index]"
-                        v-for="(option,option_index) in item.options"
+                        v-model="oneSubject[option_index]"
+                        v-for="(option,option_index) in oneSubject.options"
                         :label="option.index"
-                        @change="((label)=>{putSolution(option.index, item)})"
+                        @change="((label)=>{putSolution(option.index, oneSubject)})"
                 >
                     {{option.description}}
                 </el-checkbox>
@@ -67,19 +65,18 @@
         </el-card>
 
         <!--        判断题-->
-        <el-card v-if="testList.judgeSubjects != null && testList.judgeSubjects.length !== 0">
+        <el-card v-if="oneSubject !== null && oneSubject === 'judge'">
             <el-divider>判断题</el-divider>
-            <el-card :key="index" v-for="(item,index) in testList.judgeSubjects">
-                <el-divider>第{{index}}题</el-divider>
+            <el-card>
                 <el-row :gutter="20">
                     <el-col :span="19">
-                        <p>{{item.question}}</p>
+                        <p>{{oneSubject.question}}</p>
                     </el-col>
                     <el-col :span="1">
                         <div>
-                            <el-button v-if="item.did === true && item.right === true" size="mini" icon="el-icon-check"
+                            <el-button v-if="oneSubject.did === true && oneSubject.right === true" size="mini" icon="el-icon-check"
                                        type="success" circle/>
-                            <el-button v-if="item.did === true && item.right === false" size="mini" icon="el-icon-close"
+                            <el-button v-if="oneSubject.did === true && oneSubject.right === false" size="mini" icon="el-icon-close"
                                        type="danger" circle/>
                         </div>
                     </el-col>
@@ -87,11 +84,11 @@
                 <el-radio
                         border
                         size="small"
-                        v-model="item.tmp"
+                        v-model="oneSubject.tmp"
                         :key="option_index"
-                        v-for="(option,option_index) in item.options"
+                        v-for="(option,option_index) in oneSubject.options"
                         :label="option.index"
-                        @change="((label)=>{putSolution(option.index, item)})"
+                        @change="((label)=>{putSolution(option.index, oneSubject)})"
                 >
                     {{option.description}}
                 </el-radio>
@@ -102,27 +99,27 @@
 </template>
 
 <script>
-    import {requestAllTest, requestDefaultTest} from "../../../axios/test";
+    import {requestLogErrorSubject} from "../../../../axios/subject";
 
     export default {
-        name: "allSubjectList",
-        data() {
-            return {
-                loading:true,
-                testList: {
-                    singleChoiceSubjects: [],
-                    multipleChoiceSubjects: [],
-                    judgeSubjects: []
-                }
-            }
+        name: "basePractiseSubject",
+        props:{
+            oneSubject:null
         },
-        methods: {
-            init() {
-                requestAllTest().then(result => {
-                    this.loading = false;
-                    this.testList = result;
-                })
-
+        methods:{
+            errorLogSubjectLog(subject){
+                requestLogErrorSubject(subject)
+                    .then(response =>{
+                        this.$notify({
+                            title: '错题记录成功'
+                        });
+                    })
+                    .catch(error=>{
+                        this.$notify({
+                            title: '错题记录失败',
+                            message: '请检查网络'
+                        });
+                    });
             },
             updateMultipleSubject(item) {
                 let solution = item.solution;
@@ -173,10 +170,12 @@
                 item.did = true;
                 this.updateSubject(index, item);
                 item.right = this.isRight(item);
+                if (!item.right){
+                    item.errorLog = true;
+                    this.errorLogSubjectLog(item);
+                }
             }
-        },
-        created() {
-            this.init();
+
         }
     }
 </script>

@@ -12,3 +12,7 @@ export const requestSingleTest = (data) => {
     return request('/test/single', data, "get");
 };
 
+export const requestPractiseTest = (data) => {
+    return request('/test/practise', data, "get");
+};
+

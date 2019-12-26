@@ -4,12 +4,15 @@
             <el-header style="text-align: right; font-size: 12px">
                 <el-row>
                     <el-col :span="2">
-                        <el-button type="primary" @click="gotoDefaultTest">生成试卷</el-button>
+                        <el-button type="primary" @click="gotoDefaultTest">随机试卷</el-button>
                     </el-col>
                     <el-col :span="2">
-                        <el-button type="primary" @click="gotAllTest">所有试题</el-button>
+                        <el-button type="primary" @click="gotoAllTest">所有试题</el-button>
                     </el-col>
-                    <el-col :span="4" :offset="13">
+                    <el-col :span="2">
+                        <el-button type="primary" @click="gotoPractise">练题模式</el-button>
+                    </el-col>
+                    <el-col :span="4" :offset="10">
                         <span>欢迎 , {{user.name}}</span>
                     </el-col>
                 </el-row>
@@ -37,8 +40,11 @@
             gotoDefaultTest() {
                 this.$router.push({name: 'defaultTest'})
             },
-            gotAllTest(){
+            gotoAllTest(){
               this.$router.push({name:'allTest'})
+            },
+            gotoPractise(){
+              this.$router.push({name:'practise'})
             },
             getOnlineUser() {
                 requestOnlineUser({})

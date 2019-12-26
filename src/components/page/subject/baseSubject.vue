@@ -1,5 +1,5 @@
 <template>
-    <div v-loading.fullscreen.lock="loading">
+    <div>
         <!--        单选题-->
         <el-card v-if="testList.singleChoiceSubjects != null && testList.singleChoiceSubjects.length !== 0">
             <el-divider>单选题</el-divider>
@@ -102,27 +102,35 @@
 </template>
 
 <script>
-    import {requestDefaultTest} from "../../../axios/test";
+    import {requestLogErrorSubject} from "../../../axios/subject";
 
     export default {
-        name: "defaultSubject",
+        name: "baseSubject",
+        props:{
+            testList: {
+                singleChoiceSubjects: [],
+                multipleChoiceSubjects: [],
+                judgeSubjects: []
+            }
+        },
         data() {
             return {
-                loading:true,
-                testList: {
-                    singleChoiceSubjects: [],
-                    multipleChoiceSubjects: [],
-                    judgeSubjects: []
-                }
             }
         },
         methods: {
-            init() {
-                requestDefaultTest().then(result => {
-                    this.loading = false;
-                    this.testList = result;
+            errorLogSubjectLog(subject){
+                requestLogErrorSubject(subject)
+                .then(response =>{
+                    this.$notify({
+                        title: '错题记录成功'
+                    });
                 })
-
+                .catch(error=>{
+                    this.$notify({
+                        title: '错题记录失败',
+                        message: '请检查网络'
+                    });
+                });
             },
             updateMultipleSubject(item) {
                 let solution = item.solution;
@@ -173,11 +181,15 @@
                 item.did = true;
                 this.updateSubject(index, item);
                 item.right = this.isRight(item);
+                if (!item.right){
+                    debugger
+                    if (!item.errorLog){
+                        item.errorLog = true;
+                        this.errorLogSubjectLog(item);
+                    }
+                }
             }
         },
-        created() {
-            this.init();
-        }
     }
 </script>
 
