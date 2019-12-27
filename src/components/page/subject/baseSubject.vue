@@ -1,9 +1,9 @@
 <template>
     <div>
         <!--        单选题-->
-        <el-card v-if="testList.singleChoiceSubjects != null && testList.singleChoiceSubjects.length !== 0">
+        <el-card shadow="hover" v-if="testList.singleChoiceSubjects != null && testList.singleChoiceSubjects.length !== 0">
             <el-divider>单选题</el-divider>
-            <el-card :key="index" v-for="(item,index) in testList.singleChoiceSubjects">
+            <el-card shadow="hover" :key="index" v-for="(item,index) in testList.singleChoiceSubjects">
                 <el-divider>第{{index}}题</el-divider>
                 <el-row :gutter="20">
                     <el-col :span="19">
@@ -34,9 +34,9 @@
         </el-card>
 
         <!--        多选题-->
-        <el-card v-if="testList.multipleChoiceSubjects != null && testList.multipleChoiceSubjects.length !== 0">
+        <el-card shadow="hover" v-if="testList.multipleChoiceSubjects != null && testList.multipleChoiceSubjects.length !== 0">
             <el-divider>多选题</el-divider>
-            <el-card :key="index" v-for="(item,index) in testList.multipleChoiceSubjects">
+            <el-card shadow="hover" :key="index" v-for="(item,index) in testList.multipleChoiceSubjects">
                 <el-divider>第{{index}}题</el-divider>
                 <el-row :gutter="20">
                     <el-col :span="19">
@@ -58,18 +58,23 @@
                         v-model="item[option_index]"
                         v-for="(option,option_index) in item.options"
                         :label="option.index"
-                        @change="((label)=>{putSolution(option.index, item)})"
+                        @change="((label)=>{putMultipleSolution(option.index, item)})"
                 >
                     {{option.description}}
                 </el-checkbox>
+                <el-row>
+                   <el-col :span="2" :offset="20">
+                       <el-button size="small" @click="isMultipleSolutionRight(item)" icon="el-icon-check" type="primary">提交</el-button>
+                   </el-col>
+                </el-row>
                 <el-divider/>
             </el-card>
         </el-card>
 
         <!--        判断题-->
-        <el-card v-if="testList.judgeSubjects != null && testList.judgeSubjects.length !== 0">
+        <el-card shadow="hover" v-if="testList.judgeSubjects != null && testList.judgeSubjects.length !== 0">
             <el-divider>判断题</el-divider>
-            <el-card :key="index" v-for="(item,index) in testList.judgeSubjects">
+            <el-card shadow="hover" :key="index" v-for="(item,index) in testList.judgeSubjects">
                 <el-divider>第{{index}}题</el-divider>
                 <el-row :gutter="20">
                     <el-col :span="19">
@@ -118,20 +123,6 @@
             }
         },
         methods: {
-            errorLogSubjectLog(subject){
-                requestLogErrorSubject(subject)
-                .then(response =>{
-                    this.$notify({
-                        title: '错题记录成功'
-                    });
-                })
-                .catch(error=>{
-                    this.$notify({
-                        title: '错题记录失败',
-                        message: '请检查网络'
-                    });
-                });
-            },
             updateMultipleSubject(item) {
                 let solution = item.solution;
                 solution = [];
@@ -182,13 +173,39 @@
                 this.updateSubject(index, item);
                 item.right = this.isRight(item);
                 if (!item.right){
-                    debugger
                     if (!item.errorLog){
                         item.errorLog = true;
                         this.errorLogSubjectLog(item);
                     }
                 }
-            }
+            },
+            putMultipleSolution(index, item) {
+                item.did = true;
+                this.updateSubject(index, item);
+            },
+            isMultipleSolutionRight(item){
+                item.right = this.isRight(item);
+                if (!item.right){
+                    if (!item.errorLog){
+                        item.errorLog = true;
+                        this.errorLogSubjectLog(item);
+                    }
+                }
+            },
+            errorLogSubjectLog(subject){
+                requestLogErrorSubject(subject)
+                    .then(response =>{
+                        this.$notify({
+                            title: '错题记录成功'
+                        });
+                    })
+                    .catch(error=>{
+                        this.$notify({
+                            title: '错题记录失败',
+                            message: '请检查网络'
+                        });
+                    });
+            },
         },
     }
 </script>
