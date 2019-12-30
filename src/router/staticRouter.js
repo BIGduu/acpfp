@@ -3,7 +3,7 @@ import login from "../components/page/login/login";
 import logon from "../components/page/logon/logon";
 import defaultSubjectList from "../components/page/subject/type/defaultSubjectList";
 import allSubjectList from "../components/page/subject/type/allSubjectList";
-import practiseSubject from "../components/page/subject/practise/practiseSubject";
+import multipleSubjectListOnly from "@/components/page/subject/type/multipleSubjectListOnly";
 
 const staticRouter =[
     {
@@ -36,9 +36,9 @@ const staticRouter =[
                 component: allSubjectList
             },
             {
-                path: 'practise',
-                name: 'practise',
-                component: practiseSubject
+                path: 'multiple',
+                name: 'multiple',
+                component: multipleSubjectListOnly
             },
 
         ]

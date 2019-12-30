@@ -14,12 +14,13 @@
                             <el-button v-if="item.did === true && item.right === true" size="mini" icon="el-icon-check"
                                        type="success" circle/>
                             <el-button v-if="item.did === true && item.right === false" size="mini" icon="el-icon-close"
-                                       type="danger" circle/>
+                                       type="danger">错误</el-button>
                         </div>
                     </el-col>
                 </el-row>
+
                 <el-radio
-                        border
+                        style="display: block"
                         size="small"
                         v-model="item.tmp"
                         :key="option_index"
@@ -47,21 +48,23 @@
                             <el-button v-if="item.did === true && item.right === true" size="mini" icon="el-icon-check"
                                        type="success" circle/>
                             <el-button v-if="item.did === true && item.right === false" size="mini" icon="el-icon-close"
-                                       type="danger" circle/>
+                                       type="danger">
+                                <p :key="anIndex" v-for="(answer,anIndex) in item.answer">{{answer.index}}</p>
+                            </el-button>
                         </div>
                     </el-col>
                 </el-row>
-                <el-checkbox
-                        border
-                        size="small"
-                        :key="option_index"
-                        v-model="item[option_index]"
-                        v-for="(option,option_index) in item.options"
-                        :label="option.index"
-                        @change="((label)=>{putMultipleSolution(option.index, item)})"
-                >
-                    {{option.description}}
-                </el-checkbox>
+                        <el-checkbox
+                                style="display: block;"
+                                size="small"
+                                :key="option_index"
+                                v-model="item[option_index]"
+                                v-for="(option,option_index) in item.options"
+                                :label="option.index"
+                                @change="((label)=>{putMultipleSolution(option.index, item)})"
+                        >
+                            {{option.description}}
+                        </el-checkbox>
                 <el-row>
                    <el-col :span="2" :offset="20">
                        <el-button size="small" @click="isMultipleSolutionRight(item)" icon="el-icon-check" type="primary">提交</el-button>
@@ -90,7 +93,7 @@
                     </el-col>
                 </el-row>
                 <el-radio
-                        border
+                        style="display: block"
                         size="small"
                         v-model="item.tmp"
                         :key="option_index"
@@ -141,6 +144,9 @@
                 if (item[4]) {
                     solution.push({index: "E"})
                 }
+                if (item[5]) {
+                    solution.push({index: "F"})
+                }
                 return solution;
             },
             updateSubject(index, item) {
@@ -185,6 +191,7 @@
             },
             isMultipleSolutionRight(item){
                 item.right = this.isRight(item);
+                this.$forceUpdate();
                 if (!item.right){
                     if (!item.errorLog){
                         item.errorLog = true;
@@ -211,5 +218,10 @@
 </script>
 
 <style scoped>
-
+    .el-checkbox.is-bordered+.el-checkbox.is-bordered {
+         margin-left: 0;
+    }
+    .el-checkbox{
+        margin-right: 0;
+    }
 </style>

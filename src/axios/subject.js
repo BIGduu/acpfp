@@ -9,3 +9,5 @@ export const requestGetErrorSubject = (data) => {
     return request('/errorSubject',data,'get')
 };
 
+
+

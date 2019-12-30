@@ -10,7 +10,7 @@
                         <el-button type="primary" @click="gotoAllTest">所有试题</el-button>
                     </el-col>
                     <el-col :span="2">
-                        <el-button type="primary" @click="gotoPractise">练题模式</el-button>
+                        <el-button type="primary" @click="gotoMultiple">多选题</el-button>
                     </el-col>
                     <el-col :span="4" :offset="10">
                         <span>欢迎 , {{user.name}}</span>
@@ -43,8 +43,8 @@
             gotoAllTest(){
               this.$router.push({name:'allTest'})
             },
-            gotoPractise(){
-              this.$router.push({name:'practise'})
+            gotoMultiple(){
+              this.$router.push({name:'multiple'})
             },
             getOnlineUser() {
                 requestOnlineUser({})

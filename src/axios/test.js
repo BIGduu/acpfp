@@ -16,3 +16,8 @@ export const requestPractiseTest = (data) => {
     return request('/test/practise', data, "get");
 };
 
+export const requestMultipleTest = (data) => {
+    return request('/test/multiple',data,'get')
+};
+
+
