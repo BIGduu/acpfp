@@ -224,4 +224,11 @@
     .el-checkbox{
         margin-right: 0;
     }
+    .el-checkbox__label {
+        display: inline;
+    }
+
+    .el-checkbox, .el-checkbox__input {
+        white-space: normal;
+    }
 </style>

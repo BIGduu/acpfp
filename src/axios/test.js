@@ -20,4 +20,7 @@ export const requestMultipleTest = (data) => {
     return request('/test/multiple',data,'get')
 };
 
+export const requestErrorTest = (data) => {
+    return request('/test/error',data,'get')
+};
 
