@@ -24,3 +24,6 @@ export const requestErrorTest = (data) => {
     return request('/test/error',data,'get')
 };
 
+export const requestPatchTest = (data) => {
+    return request('/test',data,'patch')
+};

@@ -111,6 +111,7 @@
 
 <script>
     import {requestLogErrorSubject} from "../../../axios/subject";
+    import {requestPatchTest} from "../../../axios/test";
 
     export default {
         name: "baseSubject",
@@ -184,10 +185,12 @@
                         this.errorLogSubjectLog(item);
                     }
                 }
+                this.updateTest();
             },
             putMultipleSolution(index, item) {
                 item.did = true;
                 this.updateSubject(index, item);
+                this.updateTest();
             },
             isMultipleSolutionRight(item){
                 item.right = this.isRight(item);
@@ -213,6 +216,16 @@
                         });
                     });
             },
+            updateTest(){
+                requestPatchTest(this.testList)
+                .catch(error=>{
+                    this.$notify({
+                        title: '做题记录记录失败',
+                        message: '请检查网络'
+                    });
+                    console.log(error)
+                })
+            }
         },
     }
 </script>

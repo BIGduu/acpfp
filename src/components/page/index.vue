@@ -49,10 +49,11 @@
             getOnlineUser() {
                 requestOnlineUser({})
                     .then(result => {
-                        this.user.name = result;
+                        this.user.name = result.data.username;
                     })
                     .catch(error => {
                         console.log(error);
+                        this.$router.push({name:'login'})
                     });
             }
         },

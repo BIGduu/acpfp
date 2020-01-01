@@ -25,7 +25,7 @@
             init() {
                 requestDefaultTest().then(result => {
                     this.loading = false;
-                    this.testList = result;
+                    this.testList = result.data;
                 })
 
             }

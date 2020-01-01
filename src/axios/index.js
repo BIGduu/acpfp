@@ -2,8 +2,8 @@ import axios from 'axios'
 import qs from 'qs'
 import router from '../router/index';
 
-let baseURL = 'http://10.202.164.131:8888';
-// let baseURL = 'http://localhost:8888';
+// let baseURL = 'http://10.202.164.131:8888';
+let baseURL = 'http://localhost:8888';
 let timeout = 100000;
 
 
