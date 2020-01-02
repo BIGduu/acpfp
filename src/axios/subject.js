@@ -9,5 +9,9 @@ export const requestGetErrorSubject = (data) => {
     return request('/errorSubject',data,'get')
 };
 
+export const requestCommentSubject = (data) =>{
+    return request('/subject')
+};
+
 
 
