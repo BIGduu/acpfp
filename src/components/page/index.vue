@@ -12,6 +12,9 @@
                     <el-col :span="2">
                         <el-button type="primary" @click="gotoMultiple">多选题</el-button>
                     </el-col>
+                    <el-col :span="2">
+                        <el-button type="primary" @click="gotoError">我的错题</el-button>
+                    </el-col>
                     <el-col :span="4" :offset="10">
                         <span>欢迎 , {{user.name}}</span>
                     </el-col>
@@ -45,6 +48,9 @@
             },
             gotoMultiple(){
               this.$router.push({name:'multiple'})
+            },
+            gotoError(){
+                this.$router.push({name:'errorTest'})
             },
             getOnlineUser() {
                 requestOnlineUser({})

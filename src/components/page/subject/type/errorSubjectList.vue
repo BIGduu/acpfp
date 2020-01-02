@@ -6,7 +6,7 @@
 
 <script>
     import baseSubject from "@/components/page/subject/baseSubject";
-    import { requestMultipleTest} from "@/axios/test";
+    import {requestErrorTest, requestMultipleTest} from "@/axios/test";
 
     export default {
         name: "errorSubjectList",
@@ -23,9 +23,9 @@
         },
         methods: {
             init() {
-                requestMultipleTest().then(result => {
+                requestErrorTest().then(result => {
                     this.loading = false;
-                    this.testList = result;
+                    this.testList = result.data;
                 })
             }
         },

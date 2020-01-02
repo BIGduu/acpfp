@@ -4,6 +4,7 @@ import logon from "../components/page/logon/logon";
 import defaultSubjectList from "../components/page/subject/type/defaultSubjectList";
 import allSubjectList from "../components/page/subject/type/allSubjectList";
 import multipleSubjectListOnly from "@/components/page/subject/type/multipleSubjectListOnly";
+import errorSubjectList from "@/components/page/subject/type/errorSubjectList";
 
 const staticRouter =[
     {
@@ -39,6 +40,11 @@ const staticRouter =[
                 path: 'multiple',
                 name: 'multiple',
                 component: multipleSubjectListOnly
+            },
+            {
+                path: 'errorTest',
+                name: 'errorTest',
+                component: errorSubjectList
             },
 
         ]
